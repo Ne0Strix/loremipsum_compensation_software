@@ -1,4 +1,7 @@
-# for spring from https://github.com/spring-projects/spring-boot/blob/f21b6d0ee63e9ac713e7eee4eed5576ef389e3e1/.gitignore
+#################################################################################################################################
+#### for spring from https://github.com/spring-projects/spring-boot/blob/f21b6d0ee63e9ac713e7eee4eed5576ef389e3e1/.gitignore ####
+#################################################################################################################################
+
 *#
 *.iml
 *.ipr
@@ -43,3 +46,44 @@ secrets.yml
 .git-hooks/
 node_modules
 
+#########################################
+#### original from spring initializr ####
+#########################################
+
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
