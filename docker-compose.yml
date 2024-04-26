@@ -11,7 +11,7 @@ services:
     ports:
       - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
     volumes:
-      - lorem_ipsum_db:/var/lib/mysql
+      - lorem_ipsum:/var/lib/mysql
 
 volumes:
-  lorem_ipsum_db:
+  lorem_ipsum:

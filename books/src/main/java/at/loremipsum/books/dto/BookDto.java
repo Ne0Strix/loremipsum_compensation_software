@@ -1,14 +1,37 @@
 package at.loremipsum.books.dto;
 
-import java.util.Date;
+import at.loremipsum.books.entities.BookEntity;
+
+import java.time.LocalDate;
 
 public class BookDto {
     private String title;
     private String isbn;
-    private Date yearPublished;
+    private LocalDate datePublished;
     private int pages;
     private String language;
     private String genre;
+
+    public BookDto() {
+    }
+
+    public BookDto(String title, String isbn, LocalDate datePublished, int pages, String language, String genre) {
+        this.title = title;
+        this.isbn = isbn;
+        this.datePublished = datePublished;
+        this.pages = pages;
+        this.language = language;
+        this.genre = genre;
+    }
+
+    public BookDto(BookEntity book) {
+        this.title = book.getTitle();  // Assume getTitle never returns null
+        this.isbn = book.getIsbn();    // Assume getIsbn never returns null
+        this.datePublished = book.getDatePublished() != null ? book.getDatePublished() : null;
+        this.pages = book.getPages();
+        this.language = book.getLanguage() != null ? book.getLanguage().getCode() : null;
+        this.genre = book.getGenre() != null ? book.getGenre().getDisplayName() : null;
+    }
 
     public String getTitle() {
         return title;
@@ -26,12 +49,12 @@ public class BookDto {
         this.isbn = isbn;
     }
 
-    public Date getYearPublished() {
-        return yearPublished;
+    public LocalDate getDatePublished() {
+        return datePublished;
     }
 
-    public void setYearPublished(Date yearPublished) {
-        this.yearPublished = yearPublished;
+    public void setDatePublished(LocalDate datePublished) {
+        this.datePublished = datePublished;
     }
 
     public int getPages() {

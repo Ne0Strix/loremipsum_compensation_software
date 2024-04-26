@@ -23,6 +23,7 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	testImplementation 'com.h2database:h2'
+	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.1'
 }
 
 tasks.named('test') {
