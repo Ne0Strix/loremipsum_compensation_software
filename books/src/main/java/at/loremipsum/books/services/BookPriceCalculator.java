@@ -10,7 +10,7 @@ import java.util.TreeMap;
 
 @Service
 public class BookPriceCalculator {
-    private static final int BASE_COMPENSATION = 100;
+    private static final float BASE_COMPENSATION = 100f;
     private static final TreeMap<Integer, Float> COMPENSATION_LADDER = new TreeMap<>(Map.ofEntries(
             Map.entry(0, 0.7f),
             Map.entry(50, 1f),
@@ -29,9 +29,8 @@ public class BookPriceCalculator {
 
         float compensation = BASE_COMPENSATION * getCompensationFactor(book.getPages()) + getAgeCompensation(book.getDatePublished().getYear());
 
-        if (book.getLanguage() == Language.GERMAN) {
-            compensation *= GERMAN_COMPENSATION_FACTOR;
-        }
+        compensation *= getLanguageCompensationFactor(book.getLanguage());
+
         return compensation;
     }
 
@@ -47,5 +46,16 @@ public class BookPriceCalculator {
         }
     }
 
+    public float getBaseCompensation() {
+        return BASE_COMPENSATION;
+    }
+
+    public float getLanguageCompensationFactor(Language language) {
+        if (language == Language.GERMAN) {
+            return GERMAN_COMPENSATION_FACTOR;
+        } else {
+            return 1f;
+        }
+    }
 
 }

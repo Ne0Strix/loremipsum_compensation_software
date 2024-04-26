@@ -11,6 +11,7 @@ public class BookDto {
     private int pages;
     private String language;
     private String genre;
+    private float compensation;
 
     public BookDto() {
     }
@@ -79,5 +80,13 @@ public class BookDto {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    public float getCompensation() {
+        return this.compensation;
+    }
+
+    public void setCompensation(float compensation) {
+        this.compensation = compensation;
     }
 }

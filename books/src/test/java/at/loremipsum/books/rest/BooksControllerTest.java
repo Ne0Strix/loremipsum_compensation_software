@@ -190,4 +190,71 @@ public class BooksControllerTest {
                 .andExpect(jsonPath("$.title").value("The Book"));
     }
 
+    // ****************************** //
+    // GET /books/{isbn}/compensation //
+    // ****************************** //
+
+    @Test
+    public void testGetCompensation_invalidIsbn() throws Exception {
+        String isbn = "123456789";
+        String jsonBookDto = mapper.writeValueAsString(new BookDto("The Book", isbn, LocalDate.of(1970, 1, 1), 10, "en", "Crime"));
+
+        mvc.perform(get("/books/" + isbn + "/compensation"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$").value("123456789 is not a valid ISBN."));
+    }
+
+    @Test
+    public void testGetCompensation_notFound() throws Exception {
+        String isbn = "9783902980816";
+        mvc.perform(get("/books/" + isbn + "/compensation"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$").value("Book not found x_x"));
+    }
+
+    @Test
+    public void testGetCompensation_bookExists() throws Exception {
+        String title = "Necronomicon";
+        String isbn = "9780575081567";
+        LocalDate datePublished = LocalDate.of(2008, 3, 27);
+        int pages = 666;
+        Language language = Language.ENGLISH;
+        Genre genre = Genre.FANTASY;
+
+        booksRepository.save(new BookEntity(title, isbn, datePublished, pages, language, genre));
+
+        mvc.perform(get("/books/" + isbn + "/compensation")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.isbn").value(isbn))
+                .andExpect(jsonPath("$.title").value(title))
+                .andExpect(jsonPath("$.compensation.amount").value(150))
+                .andExpect(jsonPath("$.compensation.currency").value("EUR"))
+                .andExpect(jsonPath("$.compensation.details.baseCompensation").value(100))
+                .andExpect(jsonPath("$.compensation.details.ageCompensation").value(0))
+                .andExpect(jsonPath("$.compensation.details.pageCompensationFactor").value(1.5))
+                .andExpect(jsonPath("$.compensation.details.languageCompensationFactor").value(1));
+    }
+
+    @Test
+    public void testGetCompensation_bookExistsIncompleteData() throws Exception {
+        String title = "Sherlock Holmes";
+        String isbn = "9783730610275";
+        int pages = 666;
+        Language language = Language.ENGLISH;
+        Genre genre = Genre.FANTASY;
+
+        BookEntity book = new BookEntity();
+
+        book.setIsbn(isbn);
+        book.setTitle(title);
+
+        booksRepository.save(book);
+
+        mvc.perform(get("/books/" + isbn + "/compensation")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$").value("There is missing required metadata to calculate the compensation."));
+    }
+
 }

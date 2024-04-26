@@ -1,8 +1,11 @@
 package at.loremipsum.books.rest;
 
 import at.loremipsum.books.dto.BookDto;
+import at.loremipsum.books.dto.CompensationDto;
 import at.loremipsum.books.entities.BookEntity;
 import at.loremipsum.books.entities.BooksRepository;
+import at.loremipsum.books.exceptions.InvalidDataException;
+import at.loremipsum.books.services.BookPriceCalculator;
 import at.loremipsum.books.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +24,9 @@ public class BooksController {
 
     @Autowired
     private BooksRepository booksRepository;
+
+    @Autowired
+    private BookPriceCalculator calculator;
 
     @GetMapping()
     public ResponseEntity<List<BookDto>> getBooks() {
@@ -67,6 +73,49 @@ public class BooksController {
         }
     }
 
+    @GetMapping("/{isbn}/compensation")
+    public ResponseEntity<?> getCompensationByIsbn(@PathVariable String isbn) {
+        // invalid ISBN
+        if (!bookService.validateIsbn(isbn)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(isbn + " is not a valid ISBN.");
+        }
+        String normalizedIsbn = bookService.normalizeIsbn(isbn);
+
+        // valid ISBN
+        Optional<BookEntity> book = booksRepository.findById(normalizedIsbn);
+        if (book.isPresent()) {
+
+            BookEntity source = book.get();
+            if (source.getDatePublished() == null || source.getLanguage() == null) {
+                throw new InvalidDataException("There is missing required metadata to calculate the compensation.");
+            }
+
+            CompensationDto compensationDto = new CompensationDto();
+            CompensationDto.Compensation compensation = new CompensationDto.Compensation();
+            CompensationDto.Compensation.CompensationDetails details = new CompensationDto.Compensation.CompensationDetails();
+
+            //book metadata
+            compensationDto.setIsbn(normalizedIsbn);
+            compensationDto.setTitle(source.getTitle());
+
+            //compensation details
+            details.setBaseCompensation(calculator.getBaseCompensation());
+            details.setAgeCompensation(calculator.getAgeCompensation(source.getDatePublished().getYear()));
+            details.setPageCompensationFactor(calculator.getCompensationFactor(source.getPages()));
+            details.setLanguageCompensationFactor(calculator.getLanguageCompensationFactor(source.getLanguage()));
+            compensation.setDetails(details);
+
+            //compensation
+            compensation.setAmount(calculator.getCompensation(source));
+            compensation.setCurrency("EUR");
+            compensationDto.setCompensation(compensation);
+
+            return ResponseEntity.status(HttpStatus.OK).body(compensationDto);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book not found x_x");
+        }
+    }
+
     @PutMapping
     public ResponseEntity<?> updateBook(@RequestBody BookDto bookDto) {
         BookEntity book = verifyRequest(bookDto);
@@ -81,9 +130,6 @@ public class BooksController {
             return ResponseEntity.status(HttpStatus.OK).body(new BookDto(book));
         }
     }
-
-    // todo
-    // @GetMapping for compensation
 
     private BookEntity verifyRequest(BookDto bookDto) {
         bookService.validateBooksDto(bookDto);
