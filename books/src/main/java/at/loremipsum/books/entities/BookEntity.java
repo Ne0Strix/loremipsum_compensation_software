@@ -2,6 +2,8 @@ package at.loremipsum.books.entities;
 
 import at.loremipsum.books.dto.BookDto;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import org.antlr.v4.runtime.misc.NotNull;
 
@@ -13,9 +15,12 @@ public class BookEntity {
     private String title;
     @Id
     private String isbn;
+    private String publisher;
     private LocalDate datePublished;
     private int pages;
+    @Enumerated(EnumType.STRING)
     private Language language;
+    @Enumerated(EnumType.STRING)
     private Genre genre;
 
     public BookEntity() {
@@ -24,6 +29,7 @@ public class BookEntity {
     public BookEntity(BookDto bookDto) {
         this.title = bookDto.getTitle();
         this.isbn = bookDto.getIsbn();
+        this.publisher = bookDto.getPublisher();
         this.datePublished = bookDto.getDatePublished();
         this.pages = bookDto.getPages();
         this.language = Language.fromCode(bookDto.getLanguage());
@@ -42,6 +48,14 @@ public class BookEntity {
     public BookEntity(String title, String isbn) {
         this.title = title;
         this.isbn = isbn;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
     }
 
     public String getTitle() {
