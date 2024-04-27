@@ -38,7 +38,7 @@ public class BookPriceCalculator {
         return COMPENSATION_LADDER.floorEntry(pages).getValue();
     }
 
-    public int getAgeCompensation(int year) {
+    public float getAgeCompensation(int year) {
         if (year < AGE_COMPENSATION_THRESHOLD) {
             return 15;
         } else {

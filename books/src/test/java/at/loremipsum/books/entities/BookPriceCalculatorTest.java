@@ -53,14 +53,14 @@ class BookPriceCalculatorTests {
     @ParameterizedTest
     @ValueSource(ints = {1899, 1800, 1700})
     void testGetAgeCompensation_LessThan1900(int year) {
-        int compensation = calculator.getAgeCompensation(year);
+        float compensation = calculator.getAgeCompensation(year);
         assertEquals(15, compensation, "Compensation should be 15 for years less than 1900");
     }
 
     @ParameterizedTest
     @ValueSource(ints = {1900, 1950, 2000, 2020})
     void testGetAgeCompensation_1900OrGreater(int year) {
-        int compensation = calculator.getAgeCompensation(year);
+        float compensation = calculator.getAgeCompensation(year);
         assertEquals(0, compensation, "Compensation should be 0 for years 1900 or greater");
     }
 
