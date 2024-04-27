@@ -6,6 +6,7 @@ import at.loremipsum.books.entities.BookEntity;
 import at.loremipsum.books.entities.BooksRepository;
 import at.loremipsum.books.entities.Genre;
 import at.loremipsum.books.entities.Language;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -60,13 +61,13 @@ public class BooksControllerTest {
                 .andExpect(jsonPath("$[0].isbn", Matchers.is(book1.getIsbn())))
                 .andExpect(jsonPath("$[0].datePublished", Matchers.is("1970-01-01")))
                 .andExpect(jsonPath("$[0].pages", Matchers.is(book1.getPages())))
-                .andExpect(jsonPath("$[0].language", Matchers.is(book1.getLanguage().getCode())))
+                .andExpect(jsonPath("$[0].language", Matchers.is(book1.getLanguage().getDisplayName())))
                 .andExpect(jsonPath("$[0].genre", Matchers.is(book1.getGenre().getDisplayName())))
                 .andExpect(jsonPath("$[1].title", Matchers.is(book2.getTitle())))
                 .andExpect(jsonPath("$[1].isbn", Matchers.is(book2.getIsbn())))
                 .andExpect(jsonPath("$[1].datePublished", Matchers.is("1949-06-08")))
                 .andExpect(jsonPath("$[1].pages", Matchers.is(book2.getPages())))
-                .andExpect(jsonPath("$[1].language", Matchers.is(book2.getLanguage().getCode())))
+                .andExpect(jsonPath("$[1].language", Matchers.is(book2.getLanguage().getDisplayName())))
                 .andExpect(jsonPath("$[1].genre", Matchers.is(book2.getGenre().getDisplayName())));
     }
 
@@ -76,7 +77,7 @@ public class BooksControllerTest {
 
     @Test
     public void testCreateBookSuccess() throws Exception {
-        String jsonBookDto = mapper.writeValueAsString(new BookDto("1984", "9783730609767", LocalDate.of(1984, 12, 1), 984, "en", "Fantasy"));
+        String jsonBookDto = mapper.writeValueAsString(new BookDto("1984", "9783730609767", LocalDate.of(1984, 12, 1), 984, Language.ENGLISH, Genre.FANTASY));
 
         mvc.perform(post("/books")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -94,7 +95,7 @@ public class BooksControllerTest {
         Language language = Language.ENGLISH;
         Genre genre = Genre.FANTASY;
 
-        String jsonBookDto = mapper.writeValueAsString(new BookDto(title, isbn, datePublished, pages, language.getCode(), genre.getDisplayName()));
+        String jsonBookDto = mapper.writeValueAsString(new BookDto(title, isbn, datePublished, pages, language, genre));
 
         booksRepository.save(new BookEntity(title, isbn, datePublished, pages, language, genre));
 
@@ -107,7 +108,7 @@ public class BooksControllerTest {
 
     @Test
     public void testCreateBook_invalidIsbn() throws Exception {
-        String jsonBookDto = mapper.writeValueAsString(new BookDto("The Book", "123456789", LocalDate.of(1970, 1, 1), 10, "en", "Crime"));
+        String jsonBookDto = mapper.writeValueAsString(new BookDto("The Book", "123456789", LocalDate.of(1970, 1, 1), 10, Language.ENGLISH, Genre.CRIME));
 
         mvc.perform(post("/books")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -118,7 +119,7 @@ public class BooksControllerTest {
 
     @Test
     public void testCreateBook_noIsbn() throws Exception {
-        String jsonBookDto = mapper.writeValueAsString(new BookDto("The Book", null, LocalDate.of(1970, 1, 1), 10, "en", "Crime"));
+        String jsonBookDto = mapper.writeValueAsString(new BookDto("The Book", null, LocalDate.of(1970, 1, 1), 10, Language.ENGLISH, Genre.CRIME));
 
         mvc.perform(post("/books")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -134,7 +135,7 @@ public class BooksControllerTest {
     @Test
     public void testGetBook_invalidIsbn() throws Exception {
         String isbn = "123456789";
-        String jsonBookDto = mapper.writeValueAsString(new BookDto("The Book", isbn, LocalDate.of(1970, 1, 1), 10, "en", "Crime"));
+        String jsonBookDto = mapper.writeValueAsString(new BookDto("The Book", isbn, LocalDate.of(1970, 1, 1), 10, Language.ENGLISH, Genre.CRIME));
 
         mvc.perform(get("/books/" + isbn))
                 .andExpect(status().isBadRequest())
@@ -167,7 +168,7 @@ public class BooksControllerTest {
 
     @Test
     public void testUpdateBook_NotExisting() throws Exception {
-        String jsonBookDto = mapper.writeValueAsString(new BookDto("The Book", "979-8883749420", LocalDate.of(1970, 1, 1), 10, "en", "Crime"));
+        String jsonBookDto = mapper.writeValueAsString(new BookDto("The Book", "979-8883749420", LocalDate.of(1970, 1, 1), 10, Language.ENGLISH, Genre.CRIME));
 
         mvc.perform(put("/books")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -178,7 +179,7 @@ public class BooksControllerTest {
 
     @Test
     public void testUpdateBook_Existing() throws Exception {
-        String jsonBookDto = mapper.writeValueAsString(new BookDto("The Book", "979-8883749420", LocalDate.of(1970, 1, 1), 10, "en", "Crime"));
+        String jsonBookDto = mapper.writeValueAsString(new BookDto("The Book", "979-8883749420", LocalDate.of(1970, 1, 1), 10, Language.ENGLISH, Genre.CRIME));
 
         BookEntity book = new BookEntity("Some title", "9798883749420");
         booksRepository.save(book);
@@ -197,7 +198,7 @@ public class BooksControllerTest {
     @Test
     public void testGetCompensation_invalidIsbn() throws Exception {
         String isbn = "123456789";
-        String jsonBookDto = mapper.writeValueAsString(new BookDto("The Book", isbn, LocalDate.of(1970, 1, 1), 10, "en", "Crime"));
+        String jsonBookDto = mapper.writeValueAsString(new BookDto("The Book", isbn, LocalDate.of(1970, 1, 1), 10, Language.ENGLISH, Genre.CRIME));
 
         mvc.perform(get("/books/" + isbn + "/compensation"))
                 .andExpect(status().isBadRequest())
@@ -256,5 +257,4 @@ public class BooksControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$").value("There is missing required metadata to calculate the compensation."));
     }
-
 }

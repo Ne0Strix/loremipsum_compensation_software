@@ -1,39 +1,41 @@
 package at.loremipsum.books.entities;
 
 import at.loremipsum.books.exceptions.InvalidDataException;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Language {
-    ENGLISH("en"),
-    GERMAN("de"),
-    CHINESE("zh"),
-    CROATIAN("hr"),
-    FRENCH("fr"),
-    ITALIAN("it"),
-    NORWEGIAN("no"),
-    PERSIAN("fa"),
-    RUSSIAN("ru"),
-    SANSKRIT("sa"),
-    SPANISH("es"),
-    SWEDISH("sv"),
-    TURKISH("tr"),
-    CZECH("cs");
+    ENGLISH("English"),
+    GERMAN("German"),
+    CHINESE("Chinese"),
+    CROATIAN("Croatian"),
+    FRENCH("French"),
+    ITALIAN("Italian"),
+    NORWEGIAN("Norwegian"),
+    PERSIAN("Persian"),
+    RUSSIAN("Russian"),
+    SANSKRIT("Sanskrit"),
+    SPANISH("Spanish"),
+    SWEDISH("Swedish"),
+    TURKISH("Turkish"),
+    CZECH("Czech");
 
-    private final String code;
+    private final String displayName;
 
-    Language(String code) {
-        this.code = code;
+    Language(String displayName) {
+        this.displayName = displayName;
     }
 
     public static Language fromCode(String code) {
         for (Language language : values()) {
-            if (language.getCode().equals(code)) {
+            if (language.getDisplayName().equals(code)) {
                 return language;
             }
         }
         throw new InvalidDataException("No matching language for [" + code + "]");
     }
 
-    public String getCode() {
-        return this.code;
+    @JsonValue
+    public String getDisplayName() {
+        return this.displayName;
     }
 }

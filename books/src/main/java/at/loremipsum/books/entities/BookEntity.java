@@ -32,8 +32,8 @@ public class BookEntity {
         this.publisher = bookDto.getPublisher();
         this.datePublished = bookDto.getDatePublished();
         this.pages = bookDto.getPages();
-        this.language = Language.fromCode(bookDto.getLanguage());
-        this.genre = Genre.fromString(bookDto.getGenre());
+        this.language = bookDto.getLanguage();
+        this.genre = bookDto.getGenre();
     }
 
     public BookEntity(String title, String isbn, LocalDate datePublished, int pages, Language language, Genre genre) {

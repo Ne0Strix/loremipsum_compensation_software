@@ -21,15 +21,6 @@ public class BookService {
         if (!validateIsbn(bookDto.getIsbn())) {
             throw new InvalidDataException(bookDto.getIsbn() + " is not a valid ISBN.");
         }
-
-        if (bookDto.getGenre() != null) {
-            Genre.fromString(bookDto.getGenre());
-        }
-
-        if (bookDto.getLanguage() != null) {
-            Language.fromCode(bookDto.getLanguage());
-        }
-
     }
 
     public boolean validateIsbn(String isbn) {

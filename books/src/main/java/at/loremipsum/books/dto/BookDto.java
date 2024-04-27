@@ -1,6 +1,8 @@
 package at.loremipsum.books.dto;
 
 import at.loremipsum.books.entities.BookEntity;
+import at.loremipsum.books.entities.Genre;
+import at.loremipsum.books.entities.Language;
 
 import java.time.LocalDate;
 
@@ -10,14 +12,13 @@ public class BookDto {
     private LocalDate datePublished;
     private String publisher;
     private int pages;
-    private String language;
-    private String genre;
-    private float compensation;
+    private Language language;
+    private Genre genre;
 
     public BookDto() {
     }
 
-    public BookDto(String title, String isbn, LocalDate datePublished, int pages, String language, String genre) {
+    public BookDto(String title, String isbn, LocalDate datePublished, int pages, Language language, Genre genre) {
         this.title = title;
         this.isbn = isbn;
         this.datePublished = datePublished;
@@ -32,8 +33,8 @@ public class BookDto {
         this.publisher = book.getPublisher() != null ? book.getPublisher() : null;
         this.datePublished = book.getDatePublished() != null ? book.getDatePublished() : null;
         this.pages = book.getPages();
-        this.language = book.getLanguage() != null ? book.getLanguage().getCode() : null;
-        this.genre = book.getGenre() != null ? book.getGenre().getDisplayName() : null;
+        this.language = book.getLanguage() != null ? book.getLanguage() : null;
+        this.genre = book.getGenre() != null ? book.getGenre() : null;
     }
 
     public String getPublisher() {
@@ -76,27 +77,19 @@ public class BookDto {
         this.pages = pages;
     }
 
-    public String getLanguage() {
+    public Language getLanguage() {
         return language;
     }
 
-    public void setLanguage(String language) {
+    public void setLanguage(Language language) {
         this.language = language;
     }
 
-    public String getGenre() {
+    public Genre getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(Genre genre) {
         this.genre = genre;
-    }
-
-    public float getCompensation() {
-        return this.compensation;
-    }
-
-    public void setCompensation(float compensation) {
-        this.compensation = compensation;
     }
 }
