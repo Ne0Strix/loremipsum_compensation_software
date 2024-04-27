@@ -1,0 +1,74 @@
+<p-toast></p-toast>
+<p-card header="Create a new book">
+  <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+    <span class="p-float-label">
+      <input pInputText type="text" formControlName="title" />
+      <label for="title">Title</label>
+    </span>
+
+    <span class="p-float-label">
+      <p-inputMask
+        formControlName="isbn"
+        mask="999-9-99999-999-9"
+        placeholder="xxx-x-xxxxx-xxx-x"
+      ></p-inputMask>
+      <label for="isbn">ISBN</label>
+    </span>
+
+    <span class="p-float-label">
+      <p-calendar
+        formControlName="datePublished"
+        [iconDisplay]="'input'"
+        [showIcon]="true"
+        dateFormat="yy-mm-dd"
+        placeholder="Published Date"
+      ></p-calendar>
+      <label for="datePublished">Published Date</label>
+    </span>
+
+    <span class="p-float-label">
+      <p-inputNumber
+        inputId="minmax"
+        formControlName="pages"
+        [min]="1"
+        [max]="10000"
+      ></p-inputNumber>
+      <label for="pages">Pages</label>
+    </span>
+
+    <span class="p-float-label">
+      <p-dropdown
+        inputId="language"
+        formControlName="language"
+        [options]="languages"
+        [filter]="true"
+        placeholder="Select a language"
+      ></p-dropdown>
+      <label for="language">Language</label>
+    </span>
+
+    <span class="p-float-label">
+      <p-dropdown
+        inputId="genre"
+        formControlName="genre"
+        [options]="genres"
+        [filter]="true"
+        placeholder="Select a genre"
+      ></p-dropdown>
+      <label for="genre">Genre</label>
+    </span>
+
+    <button
+      type="submit"
+      pButton
+      label="Send"
+      [disabled]="!bookForm.valid"
+    ></button>
+    <div *ngIf="bookForm.status === 'VALID'">
+      <p>Your form is complete and valid.</p>
+    </div>
+    <div *ngIf="bookForm.status === 'INVALID'">
+      <p>Your form is incomplete or contains invalid entries.</p>
+    </div>
+  </form>
+</p-card>

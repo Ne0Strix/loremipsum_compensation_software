@@ -1,0 +1,63 @@
+<p-card header="All books">
+  <p-table [value]="books" dataKey="isbn" [columns]="cols" expandableRows="true" [rows]="5" [paginator]="true">
+    <!-- Table Header -->
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th style="width: 3em"></th> <!-- Column for the expand toggle -->
+        <th *ngFor="let col of columns">
+          {{ col.header }}
+        </th>
+      </tr>
+    </ng-template>
+
+    <!-- Table Body -->
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-expanded="expanded" let-i="rowIndex">
+      <tr>
+        <!-- Toggle Button for the expandable row -->
+        <td>
+          <button
+            type="button"
+            pButton
+            pRowToggler
+            [pRowToggler]="rowData"
+            icon="pi"
+            [ngClass]="expanded ? 'pi-chevron-down' : 'pi-chevron-right'"
+          >{{ expanded ? "Hide Details" : "Show Details" }}</button>
+        </td>
+        <!-- Row Data -->
+        <td *ngFor="let col of columns">
+          <!-- Displaying data with a placeholder for empty values -->
+          {{ col.subField ? (rowData[col.field] ? rowData[col.field][col.subField] : '-- empty --') : (rowData[col.field] || '-- empty --') }}
+        </td>
+      </tr>
+    </ng-template>
+
+    <!-- Row Expansion -->
+    <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+      <tr>
+        <td [attr.colspan]="columns.length + 1">
+          <!-- Expanded details layout -->
+          <div class="expanded-details" style="display: flex; justify-content: space-between">
+            <!-- Book Details -->
+            <div style="flex: 1; padding-right: 20px">
+              <p><strong>ISBN:</strong> {{ rowData.isbn || '-- empty --' }}</p>
+              <p><strong>Pages:</strong> {{ rowData.pages || '-- empty --' }}</p>
+              <p><strong>Date Published:</strong> {{ rowData.datePublished || '-- empty --' }}</p>
+              <p><strong>Language:</strong> {{ rowData.language || '-- empty --' }}</p>
+            </div>
+            <!-- Compensation Details -->
+            <div style="flex: 1">
+              <div *ngIf="rowData.compensation">
+                <p><strong>Compensation Amount:</strong> {{ rowData.compensation.amount || '-- empty --' }}€</p>
+                <p><strong>Base Compensation:</strong> {{ rowData.compensation.details.baseCompensation || '-- empty --' }}</p>
+                <p><strong>Age Compensation:</strong> {{ rowData.compensation.details.ageCompensation || '-- empty --' }}</p>
+                <p><strong>Page Factor:</strong> {{ rowData.compensation.details.pageCompensationFactor || '-- empty --' }}</p>
+                <p><strong>Language Factor:</strong> {{ rowData.compensation.details.languageCompensationFactor || '-- empty --' }}</p>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
