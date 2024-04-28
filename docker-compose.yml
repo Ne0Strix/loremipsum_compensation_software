@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  mysqldb:
+  loremdb:
     image: mysql:8
     restart: unless-stopped
     env_file: ./.env
@@ -9,9 +9,23 @@ services:
       - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
       - MYSQL_DATABASE=$MYSQLDB_DATABASE
     ports:
-      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+      - "$MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT"
     volumes:
-      - lorem_ipsum:/var/lib/mysql
+      - backend_db:/var/lib/mysql
+
+  books:
+    build: ./books
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - "$SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT"
+    depends_on:
+      - loremdb
+  
+  angular-app:
+    build: ./frontend
+    ports:
+      - "$ANGULAR_LOCAL_PORT:$ANGULAR_DOCKER_PORT"
 
 volumes:
-  lorem_ipsum:
+  backend_db:
