@@ -1,26 +1,31 @@
 package at.loremipsum.books.entities;
 
 import at.loremipsum.books.dto.BookDto;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "book_entity")
 public class BookEntity {
-    @NotNull
-    private String title;
     @Id
+    @Column(name = "isbn")
     private String isbn;
+    @NotNull
+    @Column(name = "title")
+    private String title;
+    @Column(name = "publisher")
     private String publisher;
+    @Column(name = "date_published")
     private LocalDate datePublished;
+    @Column(name = "pages")
     private int pages;
     @Enumerated(EnumType.STRING)
+    @Column(name = "language")
     private Language language;
     @Enumerated(EnumType.STRING)
+    @Column(name = "genre")
     private Genre genre;
 
     public BookEntity() {
