@@ -1,9 +1,18 @@
 <p-card header="All books">
-  <p-table [value]="books" dataKey="isbn" [columns]="cols" expandableRows="true" [rows]="5" [paginator]="true">
+  <p-table
+    [value]="books"
+    dataKey="isbn"
+    [columns]="cols"
+    expandableRows="true"
+    rowExpandMode="single"
+    [rows]="5"
+    [paginator]="true"
+  >
     <!-- Table Header -->
     <ng-template pTemplate="header" let-columns>
       <tr>
-        <th style="width: 3em"></th> <!-- Column for the expand toggle -->
+        <th style="width: 3em"></th>
+        <!-- Column for the expand toggle -->
         <th *ngFor="let col of columns">
           {{ col.header }}
         </th>
@@ -11,23 +20,55 @@
     </ng-template>
 
     <!-- Table Body -->
-    <ng-template pTemplate="body" let-rowData let-columns="columns" let-expanded="expanded" let-i="rowIndex">
+    <ng-template
+      pTemplate="body"
+      let-rowData
+      let-columns="columns"
+      let-expanded="expanded"
+      let-i="rowIndex"
+    >
       <tr>
         <!-- Toggle Button for the expandable row -->
         <td>
           <button
+            data-cy="toggle-details"
             type="button"
             pButton
-            pRowToggler
+            class="p-button-text p-button-rounded p-button-plain"
+            pRipple
             [pRowToggler]="rowData"
-            icon="pi"
-            [ngClass]="expanded ? 'pi-chevron-down' : 'pi-chevron-right'"
-          >{{ expanded ? "Hide Details" : "Show Details" }}</button>
+            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+            [ngClass]="expanded ? 'expanded' : 'collapsed'"
+          ></button>
         </td>
+
         <!-- Row Data -->
         <td *ngFor="let col of columns">
-          <!-- Displaying data with a placeholder for empty values -->
-          {{ col.subField ? (rowData[col.field] ? rowData[col.field][col.subField] : '-- empty --') : (rowData[col.field] || '-- empty --') }}
+
+          <!-- Applying conditional formatting for compensation amount -->
+          <ng-container
+            *ngIf="col.field === 'compensation' && col.subField === 'amount'"
+          >
+            <!-- Check for compensation amount -->
+            {{
+              rowData[col.field] && rowData[col.field][col.subField]
+                ? (rowData[col.field][col.subField] | currency : "EUR")
+                : "-- empty --"
+            }}
+          </ng-container>
+
+          <!-- Handling other data fields with potential subFields -->
+          <ng-container
+            *ngIf="col.field !== 'compensation' || col.subField !== 'amount'"
+          >
+            {{
+              col.subField
+                ? rowData[col.field]
+                  ? rowData[col.field][col.subField]
+                  : "-- empty --"
+                : rowData[col.field] || "-- empty --"
+            }}
+          </ng-container>
         </td>
       </tr>
     </ng-template>
@@ -37,22 +78,60 @@
       <tr>
         <td [attr.colspan]="columns.length + 1">
           <!-- Expanded details layout -->
-          <div class="expanded-details" style="display: flex; justify-content: space-between">
+          <div
+            class="expanded-details"
+            style="display: flex; justify-content: space-between"
+          >
             <!-- Book Details -->
             <div style="flex: 1; padding-right: 20px">
-              <p><strong>ISBN:</strong> {{ rowData.isbn || '-- empty --' }}</p>
-              <p><strong>Pages:</strong> {{ rowData.pages || '-- empty --' }}</p>
-              <p><strong>Date Published:</strong> {{ rowData.datePublished || '-- empty --' }}</p>
-              <p><strong>Language:</strong> {{ rowData.language || '-- empty --' }}</p>
+              <p><strong>ISBN:</strong> {{ rowData.isbn || "-- empty --" }}</p>
+              <p>
+                <strong>Pages:</strong> {{ rowData.pages || "-- empty --" }}
+              </p>
+              <p>
+                <strong>Date Published:</strong>
+                {{ rowData.datePublished || "-- empty --" }}
+              </p>
+              <p>
+                <strong>Language:</strong>
+                {{ rowData.language || "-- empty --" }}
+              </p>
             </div>
             <!-- Compensation Details -->
             <div style="flex: 1">
               <div *ngIf="rowData.compensation">
-                <p><strong>Compensation Amount:</strong> {{ rowData.compensation.amount || '-- empty --' }}€</p>
-                <p><strong>Base Compensation:</strong> {{ rowData.compensation.details.baseCompensation || '-- empty --' }}</p>
-                <p><strong>Age Compensation:</strong> {{ rowData.compensation.details.ageCompensation || '-- empty --' }}</p>
-                <p><strong>Page Factor:</strong> {{ rowData.compensation.details.pageCompensationFactor || '-- empty --' }}</p>
-                <p><strong>Language Factor:</strong> {{ rowData.compensation.details.languageCompensationFactor || '-- empty --' }}</p>
+                <p>
+                  <strong>Compensation Amount:</strong>
+                  {{ rowData.compensation.amount || "-- empty --" }}€
+                </p>
+                <p>
+                  <strong>Base Compensation:</strong>
+                  {{
+                    rowData.compensation.details.baseCompensation ||
+                      "-- empty --"
+                  }}
+                </p>
+                <p>
+                  <strong>Age Compensation:</strong>
+                  {{
+                    rowData.compensation.details.ageCompensation ||
+                      "-- empty --"
+                  }}
+                </p>
+                <p>
+                  <strong>Page Factor:</strong>
+                  {{
+                    rowData.compensation.details.pageCompensationFactor ||
+                      "-- empty --"
+                  }}
+                </p>
+                <p>
+                  <strong>Language Factor:</strong>
+                  {{
+                    rowData.compensation.details.languageCompensationFactor ||
+                      "-- empty --"
+                  }}
+                </p>
               </div>
             </div>
           </div>
