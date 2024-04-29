@@ -15,6 +15,8 @@ public class BookEntity {
     @NotNull
     @Column(name = "title")
     private String title;
+    @Column(name = "is_enriched")
+    private boolean isEnriched;
     @Column(name = "publisher")
     private String publisher;
     @Column(name = "date_published")
@@ -27,6 +29,9 @@ public class BookEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "genre")
     private Genre genre;
+    @Column(name = "version")
+    @Version
+    private int version;
 
     public BookEntity() {
     }
@@ -54,6 +59,15 @@ public class BookEntity {
         this.title = title;
         this.isbn = isbn;
     }
+
+    public boolean isEnriched() {
+        return isEnriched;
+    }
+
+    public void setEnriched(boolean enriched) {
+        isEnriched = enriched;
+    }
+
 
     public String getPublisher() {
         return publisher;
