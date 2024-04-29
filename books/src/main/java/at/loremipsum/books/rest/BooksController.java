@@ -4,6 +4,8 @@ import at.loremipsum.books.dto.BookDto;
 import at.loremipsum.books.dto.CompensationDto;
 import at.loremipsum.books.entities.BookEntity;
 import at.loremipsum.books.entities.BooksRepository;
+import at.loremipsum.books.entities.Genre;
+import at.loremipsum.books.entities.Language;
 import at.loremipsum.books.exceptions.InvalidDataException;
 import at.loremipsum.books.services.BookPriceCalculator;
 import at.loremipsum.books.services.BookService;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -130,6 +133,16 @@ public class BooksController {
 
             return ResponseEntity.status(HttpStatus.OK).body(new BookDto(book));
         }
+    }
+
+    @GetMapping("/languages")
+    public ResponseEntity<List<Language>> getLanguages(){
+        return ResponseEntity.status(HttpStatus.OK).body(Arrays.asList(Language.values()));
+    }
+
+    @GetMapping("/genres")
+    public ResponseEntity<List<Genre>> getGenres(){
+        return ResponseEntity.status(HttpStatus.OK).body(Arrays.asList(Genre.values()));
     }
 
     private BookEntity verifyRequest(BookDto bookDto) {

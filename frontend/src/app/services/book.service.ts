@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { Book } from '../models/book.model';
 import { BookCompensation } from '../models/compensation.model';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -18,10 +17,20 @@ export class BookService {
   }
 
   getCompensationByIsbn(isbn: string): Observable<BookCompensation> {
-    return this.http.get<BookCompensation>(`${this.apiBaseUrl}/${isbn}/compensation`);
+    return this.http.get<BookCompensation>(
+      `${this.apiBaseUrl}/${isbn}/compensation`
+    );
   }
 
   createBook(book: any): Observable<any> {
     return this.http.post<any>(this.apiBaseUrl, book);
+  }
+
+  getGenres(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiBaseUrl}/genres`);
+  }
+
+  getLanguages(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiBaseUrl}/languages`);
   }
 }

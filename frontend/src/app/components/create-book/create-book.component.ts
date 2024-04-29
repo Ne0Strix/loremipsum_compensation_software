@@ -1,3 +1,4 @@
+import { Book } from './../../models/book.model';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BookService } from '../../services/book.service';
@@ -10,69 +11,40 @@ import { MessageService } from 'primeng/api';
   providers: [MessageService],
 })
 export class CreateBookComponent {
-  bookForm = new FormGroup({
-    title: new FormControl('', Validators.required),
-    isbn: new FormControl('', Validators.required),
-    pages: new FormControl(null),
-    datePublished: new FormControl(null),
-    language: new FormControl(null),
-    genre: new FormControl(null),
-  });
-
-  languages = [
-    { label: 'English', value: 'English' },
-    { label: 'German', value: 'German' },
-    { label: 'Chinese', value: 'Chinese' },
-    { label: 'Croatian', value: 'Croatian' },
-    { label: 'French', value: 'French' },
-    { label: 'Italian', value: 'Italian' },
-    { label: 'Norwegian', value: 'Norwegian' },
-    { label: 'Persian', value: 'Persian' },
-    { label: 'Russian', value: 'Russian' },
-    { label: 'Sanskrit', value: 'Sanskrit' },
-    { label: 'Spanish', value: 'Spanish' },
-    { label: 'Swedish', value: 'Swedish' },
-    { label: 'Turkish', value: 'Turkish' },
-    { label: 'Czech', value: 'Czech' },
-  ];
-
-  genres = [
-    'Fiction',
-    'Non-Fiction',
-    'Mystery',
-    'Thriller',
-    'Horror',
-    'Science Fiction',
-    'Fantasy',
-    'Romance',
-    'Western',
-    'Dystopian',
-    'Contemporary',
-    'Crime',
-    'Adventure',
-    'History',
-    'Self Help',
-    'Health',
-    'Travel',
-    "Children's",
-    'Religion',
-    'Science',
-    'Humor',
-    'Cookbooks',
-    'Biography',
-    'Autobiography',
-    'Young Adult',
-    'Paranormal',
-    'Art',
-    'Psychology',
-    'Graphic Novel',
-    'Poetry',
-  ];
+  genres: string[] = [];
+  bookForm: FormGroup;
+  languages: string[] = [];
 
   constructor(
     private bookService: BookService,
     private messageService: MessageService
-  ) {}
+  ) {
+    this.bookService.getGenres().subscribe({
+      next: (genres) => {
+        this.genres = genres;
+      },
+      error: (error) => {
+        console.error('Error fetching genres:', error);
+      },
+    });
+
+    this.bookService.getLanguages().subscribe({
+      next: (languages) => {
+        this.languages = languages;
+      },
+      error: (error) => {
+        console.error('Error fetching languages:', error);
+      },
+    });
+    this.bookForm = new FormGroup({
+      title: new FormControl('', Validators.required),
+      isbn: new FormControl('', Validators.required),
+      pages: new FormControl<number | null>(null),
+      datePublished: new FormControl<string | null>(null),
+      language: new FormControl<string | null>(null),
+      genre: new FormControl<string | null>(null),
+    });
+  }
 
   onSubmit() {
     if (this.bookForm.valid) {
