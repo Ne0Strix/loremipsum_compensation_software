@@ -41,6 +41,7 @@ describe('All books test', () => {
   it('Clicks on the "Show Details" button', () => {
     cy.contains('ISBN').should('not.exist');
     cy.contains('Pages').should('not.exist');
+    cy.contains('Publisher').should('not.be.exist');
     cy.contains('Date Published').should('not.be.exist');
     cy.contains('Language').should('not.be.exist');
     cy.contains('Compensation Amount').should('not.be.exist');
@@ -54,6 +55,7 @@ describe('All books test', () => {
     cy.contains('ISBN').should('be.visible');
     cy.contains('Pages').should('be.visible');
     cy.contains('Date Published').should('be.visible');
+    cy.contains('Publisher').should('be.visible');
     cy.contains('Language').should('be.visible');
     cy.contains('Compensation Amount').should('be.visible');
     cy.contains('Base Compensation').should('be.visible');
@@ -82,6 +84,7 @@ describe('All books test', () => {
     cy.contains('ISBN').should('be.visible');
     cy.contains('Pages').should('be.visible');
     cy.contains('Date Published').should('be.visible');
+    cy.contains('Publisher').should('be.visible');
     cy.contains('Language').should('be.visible');
     cy.contains('Compensation Amount').should('be.visible');
     cy.contains('Base Compensation').should('be.visible');
@@ -101,6 +104,7 @@ describe('All books test', () => {
     cy.contains('ISBN').should('not.exist');
     cy.contains('Pages').should('not.exist');
     cy.contains('Date Published').should('not.be.exist');
+    cy.contains('Publisher').should('not.be.exist');
     cy.contains('Language').should('not.be.exist');
     cy.contains('Compensation Amount').should('not.be.exist');
     cy.contains('Base Compensation').should('not.be.exist');
