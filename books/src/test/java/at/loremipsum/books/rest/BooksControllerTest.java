@@ -6,7 +6,6 @@ import at.loremipsum.books.entities.BookEntity;
 import at.loremipsum.books.entities.BooksRepository;
 import at.loremipsum.books.entities.Genre;
 import at.loremipsum.books.entities.Language;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;

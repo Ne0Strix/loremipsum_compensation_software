@@ -27,15 +27,16 @@ public enum Language {
 
     /**
      * Creates a new Language enum instance.
+     *
      * @param displayName The human-readable display name of the language.
-     * @param code The ISO 639 Set 2/B conform three-letter code for the language.
+     * @param code        The ISO 639 Set 2/B conform three-letter code for the language.
      */
     Language(String displayName, String code) {
-        this.displayName = displayName; this.code = code;
+        this.displayName = displayName;
+        this.code = code;
     }
 
     /**
-     *
      * @param code The ISO 639 Set 2/B conform three-letter code for the language.
      * @return
      */
@@ -49,7 +50,6 @@ public enum Language {
     }
 
     /**
-     *
      * @return The human-readable display-name of a language.
      */
     @JsonValue

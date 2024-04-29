@@ -136,12 +136,12 @@ public class BooksController {
     }
 
     @GetMapping("/languages")
-    public ResponseEntity<List<Language>> getLanguages(){
+    public ResponseEntity<List<Language>> getLanguages() {
         return ResponseEntity.status(HttpStatus.OK).body(Arrays.asList(Language.values()));
     }
 
     @GetMapping("/genres")
-    public ResponseEntity<List<Genre>> getGenres(){
+    public ResponseEntity<List<Genre>> getGenres() {
         return ResponseEntity.status(HttpStatus.OK).body(Arrays.asList(Genre.values()));
     }
 

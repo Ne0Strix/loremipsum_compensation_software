@@ -196,7 +196,7 @@ public class OpenLibrarySyncTest {
         verify(booksRepository).save(argThat(x -> {
             return (x.isEnriched() && x.getPages() == 435) &&
                     (x.getPublisher() == null) &&
-                    (x.getLanguage() == null);
+                    (x.getLanguage() == Language.ENGLISH);
         }));
     }
 }

@@ -6,7 +6,9 @@ import at.loremipsum.books.entities.Language;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -19,11 +21,11 @@ import org.springframework.web.client.RestTemplate;
 public class OpenLibrarySync {
     private static final String REQUEST_URL = "https://openlibrary.org/isbn/";
 
-    private BooksRepository booksRepository;
+    private final BooksRepository booksRepository;
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     @Autowired
     public OpenLibrarySync(RestTemplate restTemplate, BooksRepository booksRepository, ObjectMapper objectMapper) {
@@ -44,7 +46,7 @@ public class OpenLibrarySync {
 
     private JsonNode getJson(BookEntity book) {
         try {
-            String url = REQUEST_URL + book.getIsbn()+".json";
+            String url = REQUEST_URL + book.getIsbn() + ".json";
             String json = restTemplate.getForObject(url, String.class);
             return objectMapper.readTree(json);
         } catch (Exception e) {

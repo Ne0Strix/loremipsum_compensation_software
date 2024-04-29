@@ -14,7 +14,8 @@ INSERT INTO book_entity (title, isbn, publisher, date_published, pages, language
 VALUES ('Magic Fermentation', '9783706626866', NULL, '2021-06-10', 304, 'German', 'COOKBOOKS');
 
 INSERT INTO book_entity (title, isbn, publisher, date_published, pages, language, genre)
-VALUES ('Instabil - Die Vergangenheit ist noch nicht geschehen', '9781979346610', NULL, '2017-10-31', 430, 'German', 'THRILLER');
+VALUES ('Instabil - Die Vergangenheit ist noch nicht geschehen', '9781979346610', NULL, '2017-10-31', 430, 'German',
+        'THRILLER');
 
 INSERT INTO book_entity (title, isbn, publisher, date_published, pages, language, genre)
 VALUES ('Speed of Sound - Das Echo der Erinnerung', '9782919805402', NULL, '2019-01-08', 489, 'German', 'THRILLER');

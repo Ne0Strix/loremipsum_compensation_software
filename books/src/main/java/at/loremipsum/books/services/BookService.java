@@ -1,8 +1,6 @@
 package at.loremipsum.books.services;
 
 import at.loremipsum.books.dto.BookDto;
-import at.loremipsum.books.entities.Genre;
-import at.loremipsum.books.entities.Language;
 import at.loremipsum.books.exceptions.InvalidDataException;
 import org.springframework.stereotype.Service;
 
