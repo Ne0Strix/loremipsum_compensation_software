@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 export class AppComponent {
   constructor(private router: Router) {}
 
+  title= 'frontend';
+
   navigate(path: string): void {
     this.router.navigate([path]);
   }
