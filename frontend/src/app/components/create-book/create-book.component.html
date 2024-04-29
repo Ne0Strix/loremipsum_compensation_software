@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<p-card header="Create a new book">
+<p-card header="Create a new book" data-cy="bookForm">
   <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
     <span class="p-float-label">
       <input pInputText type="text" formControlName="title" />
@@ -65,7 +65,7 @@
       [disabled]="!bookForm.valid"
     ></button>
     <div *ngIf="bookForm.status === 'VALID'">
-      <p>Your form is complete and valid.</p>
+      <p>Your form is valid.</p>
     </div>
     <div *ngIf="bookForm.status === 'INVALID'">
       <p>Your form is incomplete or contains invalid entries.</p>

@@ -15,10 +15,13 @@ export class CreateBookComponent {
   bookForm: FormGroup;
   languages: string[] = [];
 
-  constructor(
-    private bookService: BookService,
-    private messageService: MessageService
-  ) {
+  private bookService: BookService;
+  private messageService: MessageService;
+
+  constructor(bookService: BookService, messageService: MessageService) {
+    this.bookService = bookService;
+    this.messageService = messageService;
+
     this.bookService.getGenres().subscribe({
       next: (genres) => {
         this.genres = genres;
