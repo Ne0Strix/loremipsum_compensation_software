@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Fetches data from openlibrary.org and updates local book metadata. Each book is updated exactly once.
+ * Service for fetching data from openlibrary.org and updating local book metadata.
+ * Each book is updated exactly once.
  */
 
 @Service
@@ -34,6 +35,10 @@ public class OpenLibrarySync {
         this.objectMapper = objectMapper;
     }
 
+    /**
+     * Periodically fetches and updates books that are marked as not enriched in the repository.
+     * Runs every 5 seconds and updates the database in batches of 10.
+     */
     @Scheduled(fixedRate = 5000)
     public void updateBooks() {
         int page = 0;
@@ -44,6 +49,13 @@ public class OpenLibrarySync {
         toUpdate.forEach(this::updateBook);
     }
 
+    /**
+     * Retrieves the JSON metadata for a book from the Open Library API using the book's ISBN.
+     *
+     * @param book The book for which metadata is being fetched.
+     * @return The JSON node containing the book metadata.
+     * @throws RuntimeException if there is any error in fetching or parsing the JSON data.
+     */
     private JsonNode getJson(BookEntity book) {
         try {
             String url = REQUEST_URL + book.getIsbn() + ".json";
@@ -54,6 +66,12 @@ public class OpenLibrarySync {
         }
     }
 
+    /**
+     * Updates the metadata of a single BookEntity based on the data retrieved from the Open Library API.
+     * This method enriches the book with publisher information, page count, and language if available.
+     *
+     * @param book The book entity to update.
+     */
     public void updateBook(BookEntity book) {
         JsonNode node = getJson(book);
         boolean isEnriched = false;

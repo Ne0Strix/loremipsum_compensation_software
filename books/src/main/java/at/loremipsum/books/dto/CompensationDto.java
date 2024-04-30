@@ -1,5 +1,9 @@
 package at.loremipsum.books.dto;
 
+/**
+ * Data Transfer Object representing a book's compensation.
+ * This class simplifies client-server communication by carrying data between processes.
+ */
 public class CompensationDto {
     private String isbn;
     private String title;
@@ -29,6 +33,9 @@ public class CompensationDto {
         Compensation = compensation;
     }
 
+    /**
+     * Inner class to encapsulate the compensation amounts and details.
+     */
     public static class Compensation {
         private float amount;
         private String currency;
@@ -58,6 +65,9 @@ public class CompensationDto {
             this.details = details;
         }
 
+        /**
+         * Inner class to encapsulate specific compensation factors such as base, age, page, and language factors.
+         */
         public static class CompensationDetails {
             private float baseCompensation;
             private float ageCompensation;

@@ -15,6 +15,10 @@ public class BookEntity {
     @NotNull
     @Column(name = "title")
     private String title;
+
+    /**
+     * Indicates whether the book has been updated by the OpenLibrarySync-Service.
+     */
     @Column(name = "is_enriched")
     private boolean isEnriched;
     @Column(name = "publisher")

@@ -1,6 +1,5 @@
 package at.loremipsum.books.entities;
 
-import at.loremipsum.books.exceptions.InvalidDataException;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Genre {
@@ -41,15 +40,9 @@ public enum Genre {
         this.displayName = displayName;
     }
 
-    public static Genre fromString(String name) {
-        for (Genre genre : Genre.values()) {
-            if (genre.name().equalsIgnoreCase(name)) {
-                return genre;
-            }
-        }
-        throw new InvalidDataException("Invalid genre: " + name);
-    }
-
+    /**
+     * @return The human-readable display-name of a genre.
+     */
     @JsonValue
     public String getDisplayName() {
         return this.displayName;

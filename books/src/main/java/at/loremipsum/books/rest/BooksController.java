@@ -32,6 +32,11 @@ public class BooksController {
     @Autowired
     private BookPriceCalculator calculator;
 
+    /**
+     * Retrieves a list of all books in the repository.
+     *
+     * @return A ResponseEntity containing a list of BookDto objects.
+     */
     @GetMapping()
     public ResponseEntity<List<BookDto>> getBooks() {
         Iterable<BookEntity> bookEntities = booksRepository.findAll();
@@ -44,6 +49,12 @@ public class BooksController {
         return ResponseEntity.status(HttpStatus.OK).body(bookDtos);
     }
 
+    /**
+     * Creates a new book entry in the repository.
+     *
+     * @param bookDto The BookDto containing the book data to create.
+     * @return A ResponseEntity containing the created BookDto or conflict if exists.
+     */
     @PostMapping()
     public ResponseEntity<BookDto> createBook(@RequestBody BookDto bookDto) {
         BookEntity book = verifyRequest(bookDto);
@@ -60,6 +71,12 @@ public class BooksController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new BookDto(book));
     }
 
+    /**
+     * Retrieves a specific book by its ISBN.
+     *
+     * @param isbn The ISBN to search for.
+     * @return A ResponseEntity with the found BookDto or an error message if not found.
+     */
     @GetMapping("/{isbn}")
     public ResponseEntity<?> getBookByIsbn(@PathVariable String isbn) {
         // invalid ISBN
@@ -77,6 +94,12 @@ public class BooksController {
         }
     }
 
+    /**
+     * Calculates and retrieves compensation details for a book by ISBN.
+     *
+     * @param isbn The ISBN of the book to calculate compensation for.
+     * @return A ResponseEntity containing compensation details or an error if not found.
+     */
     @GetMapping("/{isbn}/compensation")
     public ResponseEntity<?> getCompensationByIsbn(@PathVariable String isbn) {
         // invalid ISBN
@@ -120,6 +143,12 @@ public class BooksController {
         }
     }
 
+    /**
+     * Updates an existing book in the repository.
+     *
+     * @param bookDto The BookDto containing updated data.
+     * @return A ResponseEntity with the updated BookDto or an error message if the book does not exist.
+     */
     @PutMapping
     public ResponseEntity<?> updateBook(@RequestBody BookDto bookDto) {
         BookEntity book = verifyRequest(bookDto);
@@ -135,16 +164,32 @@ public class BooksController {
         }
     }
 
+    /**
+     * Retrieves all supported languages.
+     *
+     * @return A ResponseEntity containing a list of Language enums.
+     */
     @GetMapping("/languages")
     public ResponseEntity<List<Language>> getLanguages() {
         return ResponseEntity.status(HttpStatus.OK).body(Arrays.asList(Language.values()));
     }
 
+    /**
+     * Retrieves all supported book genres.
+     *
+     * @return A ResponseEntity containing a list of Genre enums.
+     */
     @GetMapping("/genres")
     public ResponseEntity<List<Genre>> getGenres() {
         return ResponseEntity.status(HttpStatus.OK).body(Arrays.asList(Genre.values()));
     }
 
+    /**
+     * Verifies and processes the incoming bookDto to ensure it is valid.
+     *
+     * @param bookDto The BookDto to verify.
+     * @return A BookEntity based on the verified BookDto.
+     */
     private BookEntity verifyRequest(BookDto bookDto) {
         bookService.validateBooksDto(bookDto);
         bookDto.setIsbn(bookService.normalizeIsbn(bookDto.getIsbn()));

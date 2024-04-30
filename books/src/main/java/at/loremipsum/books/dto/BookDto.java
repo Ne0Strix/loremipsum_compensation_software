@@ -6,6 +6,10 @@ import at.loremipsum.books.entities.Language;
 
 import java.time.LocalDate;
 
+/**
+ * Data Transfer Object representing a book's data.
+ * This class simplifies client-server communication by carrying data between processes.
+ */
 public class BookDto {
     private String title;
     private String isbn;
@@ -15,9 +19,22 @@ public class BookDto {
     private Language language;
     private Genre genre;
 
+    /**
+     * Constructs an empty BookDto.
+     */
     public BookDto() {
     }
 
+    /**
+     * Constructs a BookDto with specified book details.
+     *
+     * @param title         The title of the book.
+     * @param isbn          The ISBN of the book.
+     * @param datePublished The publication date of the book.
+     * @param pages         The number of pages in the book.
+     * @param language      The language in which the book is written.
+     * @param genre         The genre of the book.
+     */
     public BookDto(String title, String isbn, LocalDate datePublished, int pages, Language language, Genre genre) {
         this.title = title;
         this.isbn = isbn;
@@ -27,6 +44,11 @@ public class BookDto {
         this.genre = genre;
     }
 
+    /**
+     * Constructs a BookDto from a BookEntity, copying its properties.
+     *
+     * @param book The BookEntity to copy from.
+     */
     public BookDto(BookEntity book) {
         this.title = book.getTitle();  // Assume getTitle never returns null
         this.isbn = book.getIsbn();    // Assume getIsbn never returns null
