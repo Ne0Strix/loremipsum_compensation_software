@@ -9,9 +9,11 @@
 
 - visit [localhost](http://localhost:4200) in your browser to check out the UI
 
+Also, don't forget to `npm install` in `./frontend` to install all dependencies.
+
 ## Functionality
 
-> [!TIP]
+> [!NOTE]
 > This software comes with a pre-loaded database to see the frontend in action. Subsequent `docker compose up` commands will always reset the database to its original state.
 
 Once it's up and running you can
@@ -28,7 +30,7 @@ Once it's up and running you can
 > `npx cypress run` uses the root `docker-compose.yml` to spin up the test-environment before each test and destroys it afterwards. No data will persist across tests.
 
 - run `npx cypress run` in `./frontend` to let the e2e and component tests run
-  - in order to check the tests out with the gui make sure to spin up the environment manually with `docker compose up`
+  - in order to check the tests out with `npx cypress open` make sure to spin up the environment manually with `docker compose up`
 - run `npx jest --coverage` in `./frontend` to see some unit-tests and the coverage of the project (html report is available in `./frontend/coverage/lcov-report/index.html`)
 - run `./gradlew test` in `./books` and check out the details in `./books/build/reports/tests/test/index.html`
 
@@ -38,7 +40,6 @@ Once it's up and running you can
 > There are some limitations to the software that are known but weren't resolved due to the developer's resource-restrictions.
 
 - Visual form validation indicator for required fields
-  - there were issues with the component-library used ([PrimeNG](https://primeng.org/installation)) that caused unwanted behaviour together with the FormControl `Validator`
 - There is no button to reload the table, to see results from the cronjob in the background please reload manually
 - Languages and Genres are hardcoded in the backend to ensure choices are only from the given set.
 - The container (especially for the frontend) only serve a development-version of the code.
