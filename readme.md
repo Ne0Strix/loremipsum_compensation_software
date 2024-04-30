@@ -9,16 +9,6 @@
 
 - visit [localhost](http://localhost:4200) in your browser to check out the UI
 
-## Checking the tests
-
-> [!TIP]
-> `npx cypress run` uses the root `docker-compose.yml` to spin up the test-environment before each test and destroys it afterwards. No data will persist across tests.
-
-- run `npx cypress run` in `.frontend` to let the e2e and component tests run
-  - in order to check the tests out with the gui make sure to spin up the environment manually with `docker compose up`
-- run `npx jest --coverage` in `./frontend` to see some unit-tests and the coverage of the project (html report is available in `./frontend/coverage/lcov-report/index.html`)
-- run `./gradlew test` and check out the details in `./books/build/reports/tests/test/index.html`
-
 ## Functionality
 
 > [!IMPORTANT]
@@ -28,9 +18,19 @@ Once it's up and running you can
 
 - see a list of all books in the database and
 - check out their details.
-- create new books by entering their 'Title' and 'ISBN' [in the form](http://localhost:4200/create)
+- create new books by entering at least their 'Title' and 'ISBN' [in the form](http://localhost:4200/create)
 - have some of the books details fetched in the background from [OpenLibrary](https://openlibrary.org/) (`Publisher`, `Pages`, `Language`)
   - this update runs every 5s and checks 10 books at a time
+
+## Checking the tests
+
+> [!TIP]
+> `npx cypress run` uses the root `docker-compose.yml` to spin up the test-environment before each test and destroys it afterwards. No data will persist across tests.
+
+- run `npx cypress run` in `.frontend` to let the e2e and component tests run
+  - in order to check the tests out with the gui make sure to spin up the environment manually with `docker compose up`
+- run `npx jest --coverage` in `./frontend` to see some unit-tests and the coverage of the project (html report is available in `./frontend/coverage/lcov-report/index.html`)
+- run `./gradlew test` in `./books` and check out the details in `./books/build/reports/tests/test/index.html`
 
 ## Known Limitations
 
