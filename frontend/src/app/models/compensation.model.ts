@@ -1,3 +1,7 @@
+/**
+ * Model for compensation of a book.
+ */
+
 export interface BookCompensation {
   isbn: string;
   title: string;

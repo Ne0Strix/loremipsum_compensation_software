@@ -7,6 +7,11 @@ import { Book } from '../../models/book.model';
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css',
 })
+
+/**
+ * Component responsible for displaying a list of books.
+ * It fetches all books from the server and displays them in a table.
+ */
 export class BookListComponent implements OnInit {
   books: Book[] = [];
   cols: any[];
@@ -23,6 +28,9 @@ export class BookListComponent implements OnInit {
     ];
   }
 
+  /**
+   * Fetches all books from the server and their compensations.
+   */
   ngOnInit(): void {
     this.bookService.getBooks().subscribe((books) => {
       this.books = books;
@@ -34,7 +42,7 @@ export class BookListComponent implements OnInit {
               book.compensation = compensation.compensation;
             });
         },
-        (error: { message: string | null; }) => {
+        (error: { message: string | null }) => {
           this.error = error.message;
           console.error(error);
           this.isLoading = false;
