@@ -4,6 +4,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BookService } from '../../services/book.service';
 import { MessageService } from 'primeng/api';
 
+/**
+ * Component responsible for creating new book entries.
+ * It manages form inputs for book creation, submits the data to the server, and handles response messages.
+ */
 @Component({
   selector: 'app-create-book',
   templateUrl: './create-book.component.html',
@@ -15,13 +19,27 @@ export class CreateBookComponent {
   bookForm: FormGroup;
   languages: string[] = [];
 
-  private bookService: BookService;
-  private messageService: MessageService;
+  constructor(
+    private bookService: BookService,
+    private messageService: MessageService
+  ) {
+    this.fetchGenres();
+    this.fetchLanguages();
 
-  constructor(bookService: BookService, messageService: MessageService) {
-    this.bookService = bookService;
-    this.messageService = messageService;
+    this.bookForm = new FormGroup({
+      title: new FormControl('', Validators.required),
+      isbn: new FormControl('', Validators.required),
+      pages: new FormControl<number | null>(null),
+      datePublished: new FormControl<string | null>(null),
+      language: new FormControl<string | null>(null),
+      genre: new FormControl<string | null>(null),
+    });
+  }
 
+  /**
+   * Fetches genres from the server and updates the genres array.
+   */
+  private fetchGenres() {
     this.bookService.getGenres().subscribe({
       next: (genres) => {
         this.genres = genres;
@@ -30,7 +48,12 @@ export class CreateBookComponent {
         console.error('Error fetching genres:', error);
       },
     });
+  }
 
+  /**
+   * Fetches languages from the server and updates the languages array.
+   */
+  private fetchLanguages() {
     this.bookService.getLanguages().subscribe({
       next: (languages) => {
         this.languages = languages;
@@ -38,14 +61,6 @@ export class CreateBookComponent {
       error: (error) => {
         console.error('Error fetching languages:', error);
       },
-    });
-    this.bookForm = new FormGroup({
-      title: new FormControl('', Validators.required),
-      isbn: new FormControl('', Validators.required),
-      pages: new FormControl<number | null>(null),
-      datePublished: new FormControl<string | null>(null),
-      language: new FormControl<string | null>(null),
-      genre: new FormControl<string | null>(null),
     });
   }
 
