@@ -11,7 +11,8 @@
 
 ## Checking the tests
 
-> [!TIP] > `npx cypress run` uses the root `docker-compose.yml` to spin up the test-environment before each test and destroys it afterwards. No data will persist across tests.
+> [!TIP]
+> `npx cypress run` uses the root `docker-compose.yml` to spin up the test-environment before each test and destroys it afterwards. No data will persist across tests.
 
 - run `npx cypress run` in `.frontend` to let the e2e and component tests run
   - in order to check the tests out with the gui make sure to spin up the environment manually with `docker compose up`
@@ -43,8 +44,8 @@ Once it's up and running you can
   - A separate database-table could hold these values, but this is nothing that should be directly exposed to the end-user and rather be managed by an admin for the same reason these are now hardcoded.
 - The container (especially for the frontend) only serve a development-version of the code.
 - Some of the frontend tests rely on display-text for validation which could cause issues when introducing nationalisation. This should be changed in future revisions.
-- There is no indication whether `BookEntity`-attributes are updated in the frontend. Each book is updated once in its lifetime. 
+- There is no indication whether `BookEntity`-attributes are updated in the frontend. Each book is updated once in its lifetime.
 
 ## Development Notes
 
-- Whenever the `Genre`, `Language`, or `BookEntity` are altered the corresponding entries in the `schema.sql` have to be altered as well. 
+- Whenever the `Genre`, `Language`, or `BookEntity` are altered the corresponding entries in the `schema.sql` have to be altered as well.
