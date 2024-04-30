@@ -1,5 +1,6 @@
-package at.loremipsum.books.dto;
+package at.loremipsum.books.services;
 
+import at.loremipsum.books.dto.BookDto;
 import at.loremipsum.books.exceptions.InvalidDataException;
 import at.loremipsum.books.services.BookService;
 import org.junit.jupiter.api.Test;

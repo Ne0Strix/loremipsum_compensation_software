@@ -1,5 +1,7 @@
-package at.loremipsum.books.entities;
+package at.loremipsum.books.services;
 
+import at.loremipsum.books.entities.BookEntity;
+import at.loremipsum.books.entities.Language;
 import at.loremipsum.books.exceptions.InvalidDataException;
 import at.loremipsum.books.services.BookPriceCalculator;
 import org.junit.jupiter.api.Test;
