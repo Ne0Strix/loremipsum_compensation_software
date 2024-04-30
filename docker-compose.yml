@@ -26,6 +26,8 @@ services:
     build: ./frontend
     ports:
       - "$ANGULAR_LOCAL_PORT:$ANGULAR_DOCKER_PORT"
+    depends_on:
+      - books
 
 volumes:
   backend_db:
