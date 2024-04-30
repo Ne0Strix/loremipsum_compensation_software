@@ -24,7 +24,7 @@ Once it's up and running you can
 
 ## Checking the tests
 
-> [!INFO]
+> [!NOTE]
 > `npx cypress run` uses the root `docker-compose.yml` to spin up the test-environment before each test and destroys it afterwards. No data will persist across tests.
 
 - run `npx cypress run` in `.frontend` to let the e2e and component tests run
