@@ -19,6 +19,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { Dropdown, DropdownModule } from 'primeng/dropdown';
 import { CardModule } from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [AppComponent, BookListComponent, CreateBookComponent],
@@ -38,6 +39,7 @@ import { ToastModule } from 'primeng/toast';
     DropdownModule,
     CardModule,
     ToastModule,
+    ProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
