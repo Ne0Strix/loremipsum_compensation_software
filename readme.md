@@ -11,7 +11,7 @@
 
 ## Functionality
 
-> [!IMPORTANT]
+> [!TIP]
 > This software comes with a pre-loaded database to see the frontend in action. Subsequent `docker compose up` commands will always reset the database to its original state.
 
 Once it's up and running you can
@@ -24,7 +24,7 @@ Once it's up and running you can
 
 ## Checking the tests
 
-> [!TIP]
+> [!INFO]
 > `npx cypress run` uses the root `docker-compose.yml` to spin up the test-environment before each test and destroys it afterwards. No data will persist across tests.
 
 - run `npx cypress run` in `.frontend` to let the e2e and component tests run
@@ -41,10 +41,9 @@ Once it's up and running you can
   - there were issues with the component-library used ([PrimeNG](https://primeng.org/installation)) that caused unwanted behaviour together with the FormControl `Validator`
 - There is no button to reload the table, to see results from the cronjob in the background please reload manually
 - Languages and Genres are hardcoded in the backend to ensure choices are only from the given set.
-  - A separate database-table could hold these values, but this is nothing that should be directly exposed to the end-user and rather be managed by an admin for the same reason these are now hardcoded.
 - The container (especially for the frontend) only serve a development-version of the code.
 - Some of the frontend tests rely on display-text for validation which could cause issues when introducing nationalisation. This should be changed in future revisions.
-- There is no indication whether `BookEntity`-attributes are updated in the frontend. Each book is updated once in its lifetime.
+- There is no indication whether `BookEntity`-attributes are updated in the frontend by the `OpenLibrarySync` (except for new values being there). Each book is updated once in its lifetime.
 
 ## Development Notes
 
