@@ -1,4 +1,8 @@
-<p-card header="All books">
+<ng-container *ngIf="isLoading">
+  <p-progressSpinner></p-progressSpinner>
+</ng-container>
+
+<p-card *ngIf="!isLoading && !error" header="All books">
   <p-table
     [value]="books"
     dataKey="isbn"
@@ -45,7 +49,6 @@
 
         <!-- Row Data -->
         <td *ngFor="let col of columns">
-
           <!-- Applying conditional formatting for compensation amount -->
           <ng-container
             *ngIf="col.field === 'compensation' && col.subField === 'amount'"
